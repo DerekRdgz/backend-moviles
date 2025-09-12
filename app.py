@@ -3,6 +3,7 @@ import os
 from config.db import init_db, mysql
 from dotenv import load_dotenv
 from routes.tareas import tareas_bp
+from flask_jwt_extended import JWTManager
 
 #Importamos la ruta del blueprint
 from routes.tareas import tareas_bp
@@ -18,6 +19,9 @@ def create_app(): #<- Creando la funcion
 
     # Configurar la base de datos
     init_db(app)
+
+    app.config['JWT_SECRET_KEY'] = os.getenv("JWT_SECRET")
+    jwt = JWTManager(app)
 
     # Registrar el blueprint
     app.register_blueprint(tareas_bp, url_prefix='/tareas')
